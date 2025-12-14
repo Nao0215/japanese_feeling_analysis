@@ -1,1 +1,1 @@
-streamlit pandas plotly transformers torch fugashi unidic-lite ipadic plotly.express
+streamlit pandas plotly transformers torch fugashi unidic-lite ipadic plotly
