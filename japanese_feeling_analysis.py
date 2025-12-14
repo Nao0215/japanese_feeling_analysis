@@ -35,7 +35,7 @@ st.write("テキストを入力すると、文章に含まれる9つの感情の
 # モデルが持つ「ID⇔ラベル」の対応表を取得
 id2label = classifier.model.config.id2label
 # DataFrameに変換
-id2label_df = pd.DataFrame(id2label.items(), columns=['ID (番号)', 'ラベル (日本語)'])
+id2label_df = pd.DataFrame(id2label.items(), columns=['内部ID (番号)', 'ラベル (日本語)'])
 id2label_df['内部ID (ラベル名)'] = id2label_df['内部ID (番号)'].apply(lambda x: f"LABEL_{x}")
 
 with st.expander("モデルの内部辞書（id2label）を見てみる"):
