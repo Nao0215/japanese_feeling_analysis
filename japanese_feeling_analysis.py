@@ -28,19 +28,19 @@ except Exception as e:
 # --------------------------------
 # Streamlit UI部分
 # --------------------------------
-st.title("日本語 9感情分析アプリ（内部プロセス可視化版）")
-st.write("テキストや会話内容を入力すると、文章に含まれる9つの感情のバランスを分析します。")
+st.title("テキストからわかる感情分析アプリ〜9種類の感情によるアプローチ〜")
+st.write("テキストを入力すると、文章に含まれる9つの感情のバランスを分析します。")
 
 # --- ★★★ 1. AIの内部辞書をDataFrame化して表示 ★★★ ---
 # モデルが持つ「ID⇔ラベル」の対応表を取得
 id2label = classifier.model.config.id2label
 # DataFrameに変換
-id2label_df = pd.DataFrame(id2label.items(), columns=['内部ID (番号)', '内部ラベル (英語)'])
+id2label_df = pd.DataFrame(id2label.items(), columns=['ID (番号)', 'ラベル (日本語)'])
 id2label_df['内部ID (ラベル名)'] = id2label_df['内部ID (番号)'].apply(lambda x: f"LABEL_{x}")
 
-with st.expander("AIの内部辞書（id2label）を見てみる"):
-    st.write("AIモデルは、感情をまず内部IDと英語ラベルで認識します。この対応表を使って、分析結果を日本語に翻訳しています。")
-    st.table(id2label_df[['内部ID (ラベル名)', '内部ラベル (英語)']])
+with st.expander("モデルの内部辞書（id2label）を見てみる"):
+    st.write("このモデルは、テキストから感情を予測し、IDと日本語の対応表を使って、分析結果を日本語で表している")
+    st.table(id2label_df[['内部ID (ラベル名)', '内部ラベル (日本語)']])
 # ----------------------------------------------------
 
 EMOTION_LABELS = {
@@ -66,12 +66,12 @@ if st.button("感情を分析する"):
         # 元のラベル列を、分かりやすい名前に変更
         df.rename(columns={'label': 'internal_id'}, inplace=True)
         
-        # 内部IDを、内部ラベル（英語）に翻訳
+        # 内部IDを、内部ラベル（日本語）に翻訳
         df['internal_label_en'] = df['internal_id'].apply(
             lambda x: id2label[int(x.split('_')[1])] if '_' in x else x
         )
         
-        # # 内部ラベル（英語）を、表示用の日本語に翻訳
+        # # ラベルから表示用の日本語に変換
         # df['emotion_jp'] = df['internal_label_en'].map(EMOTION_LABELS)
         # ---------------------------------------------
 
@@ -83,7 +83,7 @@ if st.button("感情を分析する"):
 
         # --- ★★★ 3. Top3表示を改善 ★★★ ---
         st.subheader("感情スコア Top 3")
-        st.write("AIの内部的な判断（英語ラベル）と、最終的な表示（日本語ラベル）を並べて表示します。")
+        st.write("AIの内部的な判断（ID）と、日本語ラベルを並べて表示します。")
         st.table(
             df_sorted[['internal_label_en', 'score']].head(3).style.format({'score': '{:.2%}'})
         )
