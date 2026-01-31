@@ -18,6 +18,9 @@ Streamlit を用いた Web アプリとして、感情スコアの一覧表示�
     - Top3 感情のスコア表示
     - Plotly によるレーダーチャートで全感情のバランスを表示
 
+## アプリURL
+https://japanesefeelinganalysis-wvvgq9sw7kujy2c7nymc5l.streamlit.app/
+
 ## セットアップ
 
 ### 1. 必要環境
